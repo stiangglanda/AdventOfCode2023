@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="adventofcode.cpp">
+    <ClCompile Include="adventofcode1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

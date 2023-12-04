@@ -1,6 +1,3 @@
-// adventofcode.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <ctype.h>
 #include <fstream>
 #include <iostream>
