@@ -1,45 +1,10 @@
-#include <ctype.h>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-std::vector<std::string> strSplit(std::string s, std::string del)
-{
-    std::vector<std::string> result;
-
-    int end = s.find(del);
-    while (end != -1)
-    {
-        result.push_back(s.substr(0, end));
-        s.erase(s.begin(), s.begin() + end + 1);
-        end = s.find(del);
-    }
-    result.push_back(s.substr(0, end));
-    return result;
-}
-
-// trim from start (in place)
-static inline void ltrim(std::string &s)
-{
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); }));
-}
-
-// trim from end (in place)
-static inline void rtrim(std::string &s)
-{
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
-}
-
-// trim from both ends (in place)
-static inline void trim(std::string &s)
-{
-    rtrim(s);
-    ltrim(s);
-}
-
-std::vector<std::string> readFile()
+static std::vector<std::string> readFile()
 {
     std::vector<std::string> engine;
     std::ifstream inputFile;
@@ -51,10 +16,10 @@ std::vector<std::string> readFile()
         engine.push_back(line);
     }
     inputFile.close();
-    return engine;
+    return std::move(engine);
 }
 
-void printInput(std::vector<std::string> input)
+static void printInput(const std::vector<std::string> &input)
 {
     for (auto i = input.cbegin(); i != input.cend(); ++i)
     {
@@ -62,7 +27,7 @@ void printInput(std::vector<std::string> input)
     }
 }
 
-std::pair<int, int> findWholeNumber(const std::string input, int StartIndex)
+static std::pair<int, int> findWholeNumber(const std::string input, int StartIndex)
 {
     std::string number;
 
@@ -80,7 +45,7 @@ std::pair<int, int> findWholeNumber(const std::string input, int StartIndex)
     return std::make_pair(number.size(), std::stoi(number));
 }
 
-bool CheckNumbersSurrundingArea(const std::vector<std::string> &area, int X, int Y, int length)
+static bool CheckNumbersSurroundingArea(const std::vector<std::string> &area, int X, int Y, int length)
 {
     for (int x = X - 1; x <= (X + 1); x++)
     {
@@ -90,10 +55,7 @@ bool CheckNumbersSurrundingArea(const std::vector<std::string> &area, int X, int
             {
                 if (y >= 0 && y < area[x].size())
                 {
-                    if (std::isdigit(area[x][y]) || area[x][y] == '.')
-                    {
-                    }
-                    else
+                    if (!(std::isdigit(area[x][y]) || area[x][y] == '.'))
                     {
                         return true;
                     }
@@ -104,7 +66,7 @@ bool CheckNumbersSurrundingArea(const std::vector<std::string> &area, int X, int
     return false;
 }
 
-std::vector<int> parseValidNumbers(const std::vector<std::string> &input)
+static std::vector<int> parseValidNumbers(const std::vector<std::string> &input)
 {
     std::vector<int> ValidNumbers;
 
@@ -116,7 +78,7 @@ std::vector<int> parseValidNumbers(const std::vector<std::string> &input)
             {
 
                 std::pair<int, int> LengthNumber = findWholeNumber(input[x], y);
-                if (CheckNumbersSurrundingArea(input, x, y, LengthNumber.first))
+                if (CheckNumbersSurroundingArea(input, x, y, LengthNumber.first))
                 {
                     ValidNumbers.push_back(LengthNumber.second);
                 }
@@ -128,7 +90,7 @@ std::vector<int> parseValidNumbers(const std::vector<std::string> &input)
     return ValidNumbers;
 }
 
-int AddUp(const std::vector<int> &numbers)
+static int AddUp(const std::vector<int> &numbers)
 {
     int result = 0;
 
