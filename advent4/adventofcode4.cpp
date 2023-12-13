@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <format>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -131,5 +130,5 @@ static unsigned int CalculatePointsFromCards(const std::vector<Card> &cards)
 int main()
 {
     std::vector<Card> input = readFile();
-    std::cout << std::format("result: {}", CalculatePointsFromCards(input)) << std::endl;
+    std::cout << "result: " << CalculatePointsFromCards(input) << std::endl;
 }
